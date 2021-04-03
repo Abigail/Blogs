@@ -41,18 +41,19 @@ sub header ($title, $week) {
     # Return the header of the HTML page
     #
 
-    my $styles = join "\n" => map {
-        "<link rel = 'stylesheet' href = '../../$_'>"
-    } grep {-f} map {"$STYLE_DIR/$_.css"} "main",
-                                          "$PWC_DIR/main",
-                                          "$PWC_DIR/$week";
+    my $styles = join "" => map {`cat $_`} grep {-f}
+                            map {"$STYLE_DIR/$_.css"} "main",
+                                                      "$PWC_DIR/main",
+                                                      "$PWC_DIR/$week";
 
     return <<~ "--";
         <head>
         <title>$title</title>
         <script src = "$POLYFILL_URL"></script>
         <script id = "MathJax-script" async src = "$MATHJAX_URL"></script>
+        <style>
         $styles
+        </style>
         $FONTS
         </head>
         --
